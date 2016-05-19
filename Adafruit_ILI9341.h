@@ -126,6 +126,7 @@ class Adafruit_ILI9341 : public Adafruit_GFX {
   void     begin(void),
            setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1),
            pushColor(uint16_t color),
+           pushRaw(uint8_t *bytes, unsigned numBytes),
            fillScreen(uint16_t color),
            drawPixel(int16_t x, int16_t y, uint16_t color),
            drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color),

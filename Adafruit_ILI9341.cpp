@@ -420,6 +420,30 @@ void Adafruit_ILI9341::pushColor(uint16_t color) {
   if (hwSPI) spi_end();
 }
 
+void Adafruit_ILI9341::pushRaw(uint8_t *bytes, unsigned numBytes) {
+  if (hwSPI) spi_begin();
+
+#if defined(USE_FAST_PINIO)
+  *dcport |=  dcpinmask;
+  *csport &= ~cspinmask;
+#else
+  digitalWrite(_dc, HIGH);
+  digitalWrite(_cs, LOW);
+#endif
+
+  for(uint8_t *byte = bytes; byte < bytes+numBytes; byte++) {
+    spiwrite(*byte);
+  }
+
+#if defined(USE_FAST_PINIO)
+  *csport |= cspinmask;
+#else
+  digitalWrite(_cs, HIGH);
+#endif
+
+  if (hwSPI) spi_end();
+}
+
 void Adafruit_ILI9341::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
   if((x < 0) ||(x >= _width) || (y < 0) || (y >= _height)) return;
